@@ -1,5 +1,5 @@
 
-// поиск ->
+// функция поиска в глобальном поиске
 function getsearchresult(mytext) {
     var xhr2 = new XMLHttpRequest();
     xhr2.open('POST', '/wp-content/themes/acadtopoplan/search.php', true);
@@ -16,6 +16,7 @@ function getsearchresult(mytext) {
     xhr2.send('const=' + mytext);
 }
 
+// функция отображения вариантов глобального поиска
 function cuttingtext(e){
     const searchForm = document.getElementById("searchform");
     const searchForm2 = document.getElementById("searchform2");
@@ -60,6 +61,7 @@ function cuttingtext(e){
     });
 }
 
+// функция отчистки поля глобального поиска и форм вывода
 function clearsearch(){
     document.getElementById('searchinputheader').value = "";
     document.getElementById('searchinputheader1').value = "";
@@ -71,7 +73,7 @@ function clearsearch(){
     document.getElementById('searchform2').classList.remove('active');
 }
 
-
+// вызов поиска в главном поиске на большом экране
 document.addEventListener('DOMContentLoaded', () => {
     const inputField = document.getElementById('searchinputheader');
 
@@ -98,6 +100,7 @@ document.addEventListener('DOMContentLoaded', () => {
     });
 });
 
+// вызов поиска в главном поиске на маленьком экране
 document.addEventListener('DOMContentLoaded', () => {
     const inputField = document.getElementById('searchinputheader1');
 
@@ -124,6 +127,7 @@ document.addEventListener('DOMContentLoaded', () => {
     });
 });
 
+// тригер на ввод в инпуты глобальных поисков (большой и маленький экран)
 document.addEventListener('DOMContentLoaded', () => {
     const input1 = document.getElementById("searchinputheader");
     const input2 = document.getElementById("searchinputheader1");
@@ -137,7 +141,9 @@ document.addEventListener('DOMContentLoaded', () => {
     });
 });
 
+
 var khewdg = '';
+// функция поиска 
 function searcher(){
     const substring = khewdg;
     if (substring != ''){
@@ -161,6 +167,7 @@ function searcher(){
     }
 }
 
+// функция передачи искомых данных на страницу документации
 function handleUrlChange(e) {
     var xhr2 = new XMLHttpRequest();
     xhr2.open('POST', '/wp-content/themes/acadtopoplan/hello.php', true);
@@ -180,6 +187,7 @@ function handleUrlChange(e) {
     xhr2.send('const=' + e.getAttribute('name'));
 }
 
+// поиск заголовков h3 в найденном контенте поиска и добавление ссылок в сайдбар (описания/содержания)
 function FindContents(){
     const h3Elements = document.getElementById('postforsite').querySelectorAll('h3');
     let output = '';
@@ -191,8 +199,7 @@ function FindContents(){
     document.getElementById('output').innerHTML = output;
 }
 
-
-
+// отображение глобального поиска при открытии документации
 document.addEventListener('DOMContentLoaded', () => {
     if (location.href.split('/')[3] == 'help'){
         document.querySelector('.headersearchtwo').classList.add('active');
@@ -203,11 +210,8 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 });
 
-// <- поиск
 
-
-
-// документация ->
+// функция перехода к оглавлению пункта по ссылке в (описании/содержании)
 function GetLink(e){
     const h3Elements = document.getElementById('postforsite').querySelectorAll('h3');
 
@@ -226,6 +230,17 @@ function GetLink(e){
     e.classList.add('active');
 }
 
+
+
+
+
+
+
+
+
+
+
+// закрытие левого и правого сайдбара, убираем блюр фона
 function auslg(){
     document.getElementById('sdbrl').classList.remove('sdbrl-open');
     document.getElementById('blured-f').classList.remove('active');
@@ -234,21 +249,25 @@ function auslg(){
     document.getElementById('searcher').classList.remove('sdbrr-open');
 }
 
+// открытие левого сайдбара для маленького экрана, добавляем блюр фона
 function fnc1(){
     document.getElementById('sdbrl').classList.add('sdbrl-open');
     document.getElementById('blured-f').classList.add('active');
 }
 
+// открытие правого сайдбара (описание) для маленького экрана, добавляем блюр фона
 function fnc2(){
     document.getElementById('sdbrr').classList.add('sdbrr-open');
     document.getElementById('blured-f').classList.add('active');
 }
 
+// открытие правого сайдбара (глобальный поиск) для маленького экрана, добавляем блюр фона
 function fnc6(){
     document.getElementById('searcher').classList.add('sdbrr-open');
     document.getElementById('blured-f').classList.add('active');
 }
 
+// открытие (появление) левого и правого сайдбара, фрейма для текста
 function sdbrlvis(){
     try{
         document.getElementById('sdbrl').classList.add('active');
@@ -257,6 +276,7 @@ function sdbrlvis(){
     } catch {}
 }
 
+// переключение контента из дерева кнопками (вперед, назад)
 function alshgfl(e){
     try{
         khewdg = e.querySelector('.linkersearch').innerText;
@@ -269,8 +289,10 @@ function alshgfl(e){
     finder();
 }
 
+// вызов отображения сайдбаров
 window.addEventListener('load', sdbrlvis);
 
+// закрытие сайдбаров и открытие мобильного меню навигации
 function gyque(){
     try{
         auslg();
@@ -280,6 +302,7 @@ function gyque(){
     document.getElementById('blured-f').classList.add('active');
 }
 
+// закрытие мобильного меню навигации
 function gyque2(){
     try{
         document.getElementById('hjgkq').classList.remove('active');
@@ -288,8 +311,8 @@ function gyque2(){
     } catch {}
 }
 
+// функция развертывания родительской вкладки (рубрика) и отображение вложенных вкладок (записей)
 function OpenThis(e){
-    //console.log(e);
     const ul = e.parentElement.parentElement.querySelector('ul');
 
     if (ul.style.height == "0px"){
@@ -312,6 +335,7 @@ function OpenThis(e){
     })
 }
 
+// закрытие списка вложенных вкладок (записей) у родительской вкладки (рубрики)
 function CloseThis2(e){
     const ul = e.parentElement.parentElement.querySelector('ul');
 
@@ -328,10 +352,10 @@ function CloseThis2(e){
     })
 }
 
+// открытие списка вложенных вкладок (записей) у родительской вкладки (рубрики)
 function OpenThis2(e, totalheight){
     const ul = e.parentElement.parentElement.querySelector('ul');
 
-    //ul.style.height = `${ ul.scrollHeight }px`;
     ul.style.height = `${ totalheight }px`;
     e.classList.add('active');
     ul.classList.add('active');
@@ -343,12 +367,14 @@ function OpenThis2(e, totalheight){
     })
 }
 
+// закрытие всех вложенных вкладок (записей) у родительских вкладок (рубрик)
 function CloseAll(){
     document.querySelectorAll('.sub-menu:not(.active)').forEach(item => {
         item.style = 'height: 0px';
     });
 }
 
+// открытие вкладки (записи)
 function asde12(e){
 	
     event.preventDefault();
@@ -397,11 +423,13 @@ function asde12(e){
     e.parentElement.parentElement.classList.add('active');
 }
 
+// закрытие всех открытых меню и активация првой записи в документации при загрузке
 window.addEventListener('load', () => {
     CloseAll(); // закрытие саб меню в документации
     finder(); // активация первой записи в документации
 });
 
+// активация и открытие првой записи в документации (если есть)
 function finder(){
     
     try{
@@ -429,6 +457,7 @@ function finder(){
     
 }
 
+// отображение и активация пролистываемого оглавления в правом сайдбаре (в содержании)
 document.addEventListener('DOMContentLoaded', () => {
     const postForSite = document.getElementById("postforsite");
     
@@ -467,12 +496,13 @@ document.addEventListener('DOMContentLoaded', () => {
     });
 });
 
+// отчистка инпута фильтра по дереву в левом сайдбаре
 function clearfffin(){
     document.getElementById('filterinput').value = '';
     filtered();
 }
 
-
+// функция фильтрации дерева в левом сайдбаре
 function filtered(){
     const filterInput = document.getElementById('filterinput');
     const itemFrames = document.querySelectorAll('.gyasdjlk');
@@ -550,4 +580,3 @@ function filtered(){
     }
 
 };
-// <- документация
