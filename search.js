@@ -54,24 +54,41 @@ export function initGlobalSearch() {
             const targetUrl = `${window.location.origin}/help/?content=${encodeURIComponent(targetContent)}&searchword=${encodeURIComponent(inputVal)}`;
             
             if (window.location.pathname.includes('/help')) {
-                //console.log('[SEARCH LOG 2] Страница help. Меняем URL:', targetUrl);
-                window.history.pushState(null, '', targetUrl);
-                
-                const virtualArticleElement = document.createElement('div');
-                virtualArticleElement.setAttribute('name', targetContent);
+            //console.log('[SEARCH LOG 2] Страница help. Меняем URL:', targetUrl);
+            window.history.pushState(null, '', targetUrl);
+            
+            const virtualArticleElement = document.createElement('div');
+            virtualArticleElement.setAttribute('name', targetContent);
 
-                if (typeof window.activateDocumentationArticle === 'function') {
-                    //console.log('[SEARCH LOG 3] Передаем управление в документацию...');
-                    window.activateDocumentationArticle(virtualArticleElement, inputVal);
-                }
+            if (typeof window.activateDocumentationArticle === 'function') {
+                //console.log('[SEARCH LOG 3] Передаем управление в документацию...');
+                window.activateDocumentationArticle(virtualArticleElement, inputVal);
+            }
 
-                // 💡 ИСПРАВЛЕНО: Закрываем и полностью очищаем поиск ВЕЗДЕ (и на ПК, и на мобилке)
-                clearSearch(); // Скрываем выпадающие списки подсказок и очищаем инпуты в шапке
-                
-                if (typeof window.closeDocPanels === 'function') {
-                    window.closeDocPanels(); // Закрываем мобильную шторку поиска #searcher, если она была открыта
-                }
+            // ========== 💡 ДОБАВЛЕННЫЙ БЛОК ДЛЯ ПОДСВЕТКИ В ДЕРЕВЕ ==========
+            // 1. Сбрасываем старый активный пункт в меню
+            const activeLinks = document.querySelectorAll('.header-navigaton-list .active');
+            activeLinks.forEach(link => link.classList.remove('active'));
+
+            // 2. Ищем и подсвечиваем новую ссылку. 
+            // Так как у вас URL вида /help/?content=имя, ищем ссылку, которая ведет на этот же content
+            const targetLink = document.querySelector(`.header-navigaton-list a[href*="content=${encodeURIComponent(targetContent)}"]`);
+            if (targetLink) {
+                targetLink.classList.add('active');
             } else {
+                // Если точечная ссылка не найдена, подсвечиваем общий раздел /help
+                const helpLink = document.querySelector('.header-navigaton-list a[href*="/help"]');
+                helpLink?.classList.add('active');
+            }
+            // ==============================================================
+
+            // 💡 ИСПРАВЛЕНО: Закрываем и полностью очищаем поиск ВЕЗДЕ
+            clearSearch(); 
+            
+            if (typeof window.closeDocPanels === 'function') {
+                window.closeDocPanels(); 
+            }
+        } else {
                 //console.log('[SEARCH LOG 2] Переход на страницу help с другой страницы сайта...');
                 window.location.href = targetUrl;
             }
